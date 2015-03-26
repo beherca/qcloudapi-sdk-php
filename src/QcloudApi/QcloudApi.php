@@ -60,6 +60,7 @@ class QcloudApi
      * VOD
      */
     const MODULE_VOD = 'vod';
+    const MODULE_VOD_UPLOAD = 'vodUpload';
 
     /**
      * load

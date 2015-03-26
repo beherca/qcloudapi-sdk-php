@@ -55,7 +55,7 @@ class QcloudApi_Common_Request
      * @param  string $requestMethod
      * @return
      */
-    public static function generateUrl($paramArray, $secretId, $secretKey, $requestMethod, $requestHost, $requestPath) {
+    public static function generateUrl($paramArray, $secretId, $secretKey, $requestMethod, $requestHost, $requestPath, $schema='https') {
 
         if(!isset($paramArray['SecretId']))
             $paramArray['SecretId'] = $secretId;
@@ -72,8 +72,8 @@ class QcloudApi_Common_Request
 
         $paramArray['Signature'] = QcloudApi_Common_Sign::sign($plainText, $secretKey);
 
-        $url = 'https://' . $requestHost . $requestPath;
-        if ($requestMethod == 'GET') {
+        $url = $schema.'://' . $requestHost . $requestPath;
+        if ($requestMethod == 'GET' || $requestMethod == 'POST') {
             $url .= '?' . http_build_query($paramArray);
         }
 
@@ -91,7 +91,7 @@ class QcloudApi_Common_Request
      * @param  string $requestPath   url路径
      * @return
      */
-    public static function send($paramArray, $secretId, $secretKey, $requestMethod, $requestHost, $requestPath)
+    public static function send($paramArray, $secretId, $secretKey, $requestMethod, $requestHost, $requestPath, $schema='https')
     {
 
         if(!isset($paramArray['SecretId']))
@@ -109,7 +109,7 @@ class QcloudApi_Common_Request
 
         $paramArray['Signature'] = QcloudApi_Common_Sign::sign($plainText, $secretKey);
 
-        $url = 'https://' . $requestHost . $requestPath;
+        $url = $schema.'://' . $requestHost . $requestPath;
 
         $ret = self::_sendRequest($url, $paramArray, $requestMethod);
 
